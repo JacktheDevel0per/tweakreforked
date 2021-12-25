@@ -698,7 +698,8 @@ public class RenderUtils
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         startDrawingLines(buffer);
-
+        buffer.begin(DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        
         renderAreaSidesBatched(pos1, pos2, color, 0.002, buffer, mc);
 
         tessellator.draw();

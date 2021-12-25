@@ -379,8 +379,10 @@ public class RenderTweaks {
         MinecraftClient mc = MinecraftClient.getInstance();
 
         for (Entry<Long, ArrayList<Item>> entry : CACHED_OVERLAY_DATA.entrySet()) {
-            RenderUtils.renderBlockOutline(BlockPos.fromLong(entry.getKey()), expand, lineWidthBlockBox, colorSearch,
+            BlockPos pos = BlockPos.fromLong(entry.getKey());
+            RenderUtils.renderBlockOutline(pos, expand, lineWidthBlockBox, colorSearch,
                     mc);
+            RenderUtils.renderAreaSides(pos, pos, colorSearch, matrices, mc);
         }
 
     }

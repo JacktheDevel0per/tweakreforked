@@ -62,6 +62,7 @@
         "MixinSkyProperties_Nether",
         "MixinSlimeBlock",
         "MixinStructureBlockBlockEntity",
+        "MixinStructureBlockBlockEntityRenderer",
         "MixinTeleportSpectatorMenu",
         "MixinTradeOffer",
         "MixinUpdateStructureBlockC2SPacket",
