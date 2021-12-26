@@ -715,7 +715,7 @@ public class RenderTweaks {
                     fakeWorld.setBlockState(pos, Blocks.AIR.getDefaultState());
                     mc.world.setBlockState(pos, originalState,
                             Block.NOTIFY_ALL | Block.FORCE_STATE | PASSTHROUGH);
-                    if (be != null) fakeWorld.addBlockEntity(be);
+                    if (be != null) mc.world.addBlockEntity(be);
                 }
             }
         } else {
@@ -768,9 +768,11 @@ public class RenderTweaks {
                     if (chunk != null && fakeChunk != null) {
                         ChunkPos cpos = chunk.getPos();
                         ChunkSection[] sections = chunk.getSectionArray();
+                        ChunkSection[] fakeSections = fakeChunk.getSectionArray();
                         for (int i = 0; i < sections.length; i++) {
                             ChunkSection section = sections[i];
-                            if (section != WorldChunk.EMPTY_SECTION) {
+                            ChunkSection fakeSection = fakeSections[i];
+                            if ((section != WorldChunk.EMPTY_SECTION && !section.isEmpty()) || (fakeSection != WorldChunk.EMPTY_SECTION && !fakeSection.isEmpty())) {
                                 for (int x = 0; x < 16; x++) {
                                     for (int y = 0; y < 16; y++) {
                                         for (int z = 0; z < 16; z++) {
