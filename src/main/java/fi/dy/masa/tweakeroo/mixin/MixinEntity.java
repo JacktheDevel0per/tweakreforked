@@ -1,5 +1,7 @@
 package fi.dy.masa.tweakeroo.mixin;
 
+import java.io.ObjectInputFilter.Config;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -147,6 +149,15 @@ public abstract class MixinEntity
         if (updatePitch)
         {
             this.forcedPitch = net.minecraft.util.math.MathHelper.clamp(this.forcedPitch + pitchChange * 0.15D, -pitchLimit, pitchLimit);
+        }
+    }
+
+    @Inject(method = "setOnFireFromLava", at = @At("HEAD"), cancellable = true)
+    private void injectLavaDestroyFix(CallbackInfo ci) {
+        if (Configs.Fixes.LAVA_DESTROY_FIX.getBooleanValue()) {
+            if (this.world.isClient) {
+                ci.cancel();
+            }
         }
     }
 }

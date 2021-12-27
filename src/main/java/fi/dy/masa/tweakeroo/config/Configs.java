@@ -212,13 +212,15 @@ public class Configs implements IConfigHandler
         public static final ConfigBoolean PROFILER_CHART_FIX                = new ConfigBoolean("profilerChartFix", false, "Adds a fix for the debug profiler pie chart, that broke in MC 1.14.4");
         public static final ConfigBoolean RAVAGER_CLIENT_BLOCK_BREAK_FIX    = new ConfigBoolean("ravagerClientBlockBreakFix", false, "Fixes Ravagers breaking blocks on the client side,\nwhich causes annoying ghost blocks/block desyncs");
         public static final ConfigBoolean CHEST_MIRROR_FIX                  = new ConfigBoolean("chestMirrorFix", false, "Fixes chest mirroring (eg, with litematica)");
+        public static final ConfigBoolean LAVA_DESTROY_FIX                  = new ConfigBoolean("lavaDestroyFix", false, "Fixes lava destroying entities on the client when it shouldn't");
 
         public static final ImmutableList<IConfigBase> OPTIONS = ImmutableList.of(
                 ELYTRA_FIX,
                 MAC_HORIZONTAL_SCROLL,
                 PROFILER_CHART_FIX,
                 RAVAGER_CLIENT_BLOCK_BREAK_FIX,
-                CHEST_MIRROR_FIX
+                CHEST_MIRROR_FIX,
+                LAVA_DESTROY_FIX
         );
     }
 
