@@ -1,19 +1,12 @@
 package fi.dy.masa.tweakeroo.world;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.BuiltinBiomes;
 import net.minecraft.world.biome.source.BiomeArray;
 import net.minecraft.world.biome.source.FixedBiomeSource;
@@ -25,15 +18,11 @@ public class FakeChunk extends WorldChunk {
     private final int bottomY;
     private final int topY;
     private boolean isEmpty = true;
-
-    
-    private final Map<BlockPos, BlockEntity> blockEntities;
     
     public FakeChunk(FakeWorld world, ChunkPos pos) {
         super(world, pos, new BiomeArray(world.getRegistryManager().get(Registry.BIOME_KEY), world, pos, new FixedBiomeSource(BuiltinBiomes.THE_VOID)));
         this.bottomY = world.getBottomY();
         this.topY = world.getTopY();
-        this.blockEntities = Maps.newHashMap();
     }
 
     @Override
