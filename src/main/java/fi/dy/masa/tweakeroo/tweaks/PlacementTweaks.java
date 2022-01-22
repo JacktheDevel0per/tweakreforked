@@ -621,11 +621,11 @@ public class PlacementTweaks
             simpleOffset = true;
         }
 
-        boolean accurate = Configs.Generic.CARPET_ACCURATE_PLACEMENT_PROTOCOL.getBooleanValue();
+        boolean accurate = FeatureToggle.TWEAK_ACCURATE_BLOCK_PLACEMENT.getBooleanValue();
         boolean accurateIn = Hotkeys.ACCURATE_BLOCK_PLACEMENT_IN.getKeybind().isKeybindHeld();
         boolean accurateReverse = Hotkeys.ACCURATE_BLOCK_PLACEMENT_REVERSE.getKeybind().isKeybindHeld();
         //boolean afterClicker = FeatureToggle.TWEAK_AFTER_CLICKER.getBooleanValue();
-        boolean shouldUseAccurateAfterClick = FeatureToggle.TWEAK_AFTER_CLICKER.getBooleanValue() && accurate && canUseCarpetProtocolForAfterclicker(stack);
+        boolean shouldUseAccurateAfterClick = FeatureToggle.TWEAK_AFTER_CLICKER.getBooleanValue() && Configs.Generic.CARPET_ACCURATE_PLACEMENT_PROTOCOL.getBooleanValue() && canUseCarpetProtocolForAfterclicker(stack);
 
        
         if (!accurateIn) accurateIn = intoHold;
