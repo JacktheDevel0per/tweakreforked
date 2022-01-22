@@ -62,7 +62,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.WorldChunk;
@@ -177,7 +176,6 @@ public class RenderTweaks {
                         ShulkerBoxBlockEntity lv1 = (ShulkerBoxBlockEntity) blockEntity;
                         boolean flag;
                         if (lv1.getAnimationStage() == ShulkerBoxBlockEntity.AnimationStage.CLOSED) {
-                            Direction lv2 = state.get(ShulkerBoxBlock.FACING);
                             flag = mc.world.isSpaceEmpty(ShulkerEntity
                                     .method_33347((Direction) state.get(ShulkerBoxBlock.FACING), 0.0F, 0.5F)
                                     .offset(tempPos).contract(1.0E-6D));
@@ -212,7 +210,6 @@ public class RenderTweaks {
         MinecraftClient mc = MinecraftClient.getInstance();
         float expand = 0.001f;
         float lineWidthBlockBox = 2f;
-        float lineWidthArea = 1.5f;
 
         if (FeatureToggle.TWEAK_CONTAINER_SCAN.getBooleanValue()) {
             scanContainersNearby();
@@ -344,7 +341,6 @@ public class RenderTweaks {
     private static void renderLists(MatrixStack matrices) {
         float expand = 0.001f;
         float lineWidthBlockBox = 2f;
-        float lineWidthArea = 1.5f;
         MinecraftClient mc = MinecraftClient.getInstance();
 
         for (ListMapEntry entry : SELECTIVE_BLACKLIST.values()) {
@@ -358,7 +354,6 @@ public class RenderTweaks {
     private static void renderUnknownContainerBoxes(MatrixStack matrices) {
         float expand = 0.001f;
         float lineWidthBlockBox = 2f;
-        float lineWidthArea = 1.5f;
         MinecraftClient mc = MinecraftClient.getInstance();
 
         for (ContainerEntry entry : CONTAINERCACHE.values()) {
@@ -375,7 +370,6 @@ public class RenderTweaks {
     private static void renderSearchedContainerBoxes(MatrixStack matrices) {
         float expand = 0.001f;
         float lineWidthBlockBox = 8f;
-        float lineWidthArea = 1.5f;
         MinecraftClient mc = MinecraftClient.getInstance();
 
         for (Entry<Long, ArrayList<Item>> entry : CACHED_OVERLAY_DATA.entrySet()) {
