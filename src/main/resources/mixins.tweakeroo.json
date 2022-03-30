@@ -76,7 +76,9 @@
 		"MixinUpdateStructureBlockC2SPacket",
 		"MixinWidgetConfigOptionBase",
 		"MixinWorld",
-		"MixinWorldRenderer"
+		"MixinWorldRenderer",
+		"MixinWindow",
+		"MixinInputUtil"
 	],
 	"mixinPriority": 990,
 	"injectors": {
