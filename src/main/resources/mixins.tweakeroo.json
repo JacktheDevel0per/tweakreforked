@@ -83,7 +83,9 @@
         "MixinWidgetConfigOptionBase",
         "MixinWindow",
         "MixinWorld",
-        "MixinWorldRenderer"
+        "MixinWorldRenderer",
+        "MixinAbstractSignEditScreen",
+        "MixinClientWorld_Properties"
     ],
 	"mixinPriority": 990,
 	"injectors": {
