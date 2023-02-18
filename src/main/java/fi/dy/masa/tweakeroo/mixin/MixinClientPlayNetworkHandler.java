@@ -29,6 +29,7 @@ import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket;
 import net.minecraft.network.packet.s2c.play.ChunkLoadDistanceS2CPacket;
 import net.minecraft.network.packet.s2c.play.ChunkRenderDistanceCenterS2CPacket;
 import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
+import net.minecraft.network.packet.s2c.play.LightData;
 import net.minecraft.network.packet.s2c.play.LightUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket;
@@ -99,9 +100,16 @@ public abstract class MixinClientPlayNetworkHandler
 
     @Inject(method = "onLightUpdate", at = @At("HEAD"), cancellable = true)
     private void onLightUpdateEvent(LightUpdateS2CPacket packet, CallbackInfo ci) {
-        int i = packet.getChunkX();
-        int j = packet.getChunkZ();
-        RenderTweaks.onLightUpdateEvent(i,j, ci);
+        if (Configs.Disable.DISABLE_PACKET_LIGHT_UPDATES.getBooleanValue()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "readLightData", at = @At("HEAD"), cancellable = true)
+    private void onReadLightData(int x, int z, LightData data, CallbackInfo ci) {
+        if (Configs.Disable.DISABLE_PACKET_LIGHT_UPDATES.getBooleanValue()) {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "sendPacket", at = @At("HEAD"))

@@ -327,6 +327,7 @@ public class Configs implements IConfigHandler
         public static final ConfigBooleanHotkeyed       DISABLE_CHUNK_RENDERING         = new ConfigBooleanHotkeyed("disableChunkRendering",                false, "", "Disables chunk (re-)rendering. This will make any block changes non-visible\\nuntil this is disabled again and F3 + A is used to refresh the world rendering.\\nThis might help with low fps in places with lots of block changes in some situations,\\nwhere the block changes are not really relevant at that time.");
         public static final ConfigBooleanHotkeyed       DISABLE_CLIENT_ENTITY_UPDATES   = new ConfigBooleanHotkeyed("disableClientEntityUpdates",           false, "", "Disables ALL except player entity updates on the client.\nThis is mainly meant for situations where you need to be\nable to do stuff to fix excessive entity count related problems");
         public static final ConfigBooleanHotkeyed       DISABLE_CLIENT_LIGHT_UPDATES    = new ConfigBooleanHotkeyed("disableClientLightUpdates",            false, "", "Disables all client-side light updates");
+        public static final ConfigBooleanHotkeyed       DISABLE_PACKET_LIGHT_UPDATES    = new ConfigBooleanHotkeyed("disablePacketLightUpdates",            false, "", "Disables all packet light updates");
         public static final ConfigBooleanHotkeyed       DISABLE_CONSTANT_CHUNK_SAVING   = new ConfigBooleanHotkeyed("disableConstantChunkSaving",           false, "", "Disables the game saving up to 20 chunks every tick\nall the time, in addition to the normal auto-save cycle.");
         public static final ConfigBooleanHotkeyed       DISABLE_CREATIVE_INFESTED_BLOCKS= new ConfigBooleanHotkeyed("disableCreativeMenuInfestedBlocks",    false, "", "Removes infested stone blocks from the creative search inventory");
         public static final ConfigBooleanHotkeyed       DISABLE_DEAD_MOB_RENDERING      = new ConfigBooleanHotkeyed("disableDeadMobRendering",              false, "", "Prevents rendering dead mobs (entities that are at 0 health)");
@@ -376,6 +377,7 @@ public class Configs implements IConfigHandler
                 DISABLE_CHUNK_RENDERING,
                 DISABLE_CLIENT_ENTITY_UPDATES,
                 DISABLE_CLIENT_LIGHT_UPDATES,
+                DISABLE_PACKET_LIGHT_UPDATES,
                 DISABLE_CONSTANT_CHUNK_SAVING,
                 DISABLE_CREATIVE_INFESTED_BLOCKS,
                 DISABLE_DEAD_MOB_RENDERING,
