@@ -7,10 +7,15 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import fi.dy.masa.tweakeroo.config.Configs;
+import fi.dy.masa.tweakeroo.config.FeatureToggle;
 import fi.dy.masa.tweakeroo.tweaks.RenderTweaks;
 import fi.dy.masa.tweakeroo.util.IMixinWindow;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.WindowEventHandler;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.Window;
 
 
@@ -34,8 +39,11 @@ public class MixinWindow implements IMixinWindow {
     @Shadow
     private double scaleFactor;
 
-    @Shadow public abstract int getWidth();
-    @Shadow public abstract int getHeight();
+    @Shadow 
+    private int width;
+    
+    @Shadow
+    private int height;
 
     private int yOffset = 0;
     private int originalFramebufferHeight = 1;
@@ -106,7 +114,7 @@ public class MixinWindow implements IMixinWindow {
 
             if (scale > 0)
             {
-                cir.setReturnValue((int) Math.ceil((double) this.getWidth() / scale));
+                cir.setReturnValue((int) Math.ceil((double) width / scale));
             }
         }
     }
@@ -121,7 +129,7 @@ public class MixinWindow implements IMixinWindow {
 
             if (scale > 0)
             {
-                cir.setReturnValue((int) Math.ceil((double) this.getHeight() / scale));
+                cir.setReturnValue((int) Math.ceil((double) height / scale));
             }
         }
     }

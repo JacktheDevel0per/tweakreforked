@@ -14,6 +14,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.map.MapState;
 import net.minecraft.recipe.RecipeManager;
+import net.minecraft.registry.BuiltinRegistries;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -24,11 +30,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.profiler.Profiler;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.DynamicRegistryManager;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.MutableWorldProperties;
 import net.minecraft.world.World;
@@ -45,26 +46,31 @@ import net.minecraft.world.tick.QueryableTickScheduler;
 
 public class FakeWorld extends World
 {
-    private static final RegistryKey<World> REGISTRY_KEY = RegistryKey.of(Registry.WORLD_KEY, new Identifier(Reference.MOD_ID, "selective_world"));
-
+    private static final RegistryKey<World> REGISTRY_KEY = RegistryKey.of(RegistryKeys.WORLD, new Identifier(Reference.MOD_ID, "selective_world"));
+    private static final ClientWorld.Properties LEVEL_INFO = new ClientWorld.Properties(Difficulty.PEACEFUL, false, true);
+    private static final RegistryEntry<DimensionType> DIMENSION_TYPE = BuiltinRegistries.createWrapperLookup().createRegistryLookup().getOrThrow(RegistryKeys.DIMENSION_TYPE).getOrThrow(DimensionTypes.OVERWORLD);
+    
     private final MinecraftClient mc;
     private final FakeChunkManager chunkManager;
+    private final DynamicRegistryManager registryManager;
 
-    private DynamicRegistryManager registryManager;
-    public static final RegistryEntry<DimensionType> DIMENSIONTYPE = BuiltinRegistries.DIMENSION_TYPE.entryOf(DimensionTypes.OVERWORLD);
-    
-    public FakeWorld(DynamicRegistryManager registry, MutableWorldProperties mutableWorldProperties, RegistryEntry<DimensionType> dimensionType, Supplier<Profiler> supplier, int loadDistance)
+    public FakeWorld(
+        DynamicRegistryManager registryManager,
+        MutableWorldProperties properties,
+        RegistryEntry<DimensionType> dimension,
+        Supplier<Profiler> supplier,
+        int loadDistance
+    )
     {
         //MutableWorldProperties properties, RegistryKey<World> registryRef, RegistryEntry<DimensionType> dimension, Supplier<Profiler> profiler, boolean isClient, boolean debugWorld, long seed, int maxChainedNeighborUpdates
-        super(mutableWorldProperties, REGISTRY_KEY, dimensionType, supplier, true, true, 0L, 1000000);
-        registryManager = registry;
+        super(properties, REGISTRY_KEY, dimension, supplier, true, false, 0L, 0);
         this.mc = MinecraftClient.getInstance();
+        this.registryManager = registryManager;
         this.chunkManager = new FakeChunkManager(this, loadDistance);
-
     }
 
-    public FakeWorld(DynamicRegistryManager registry, int loadDistance) {
-        this(registry, new ClientWorld.Properties(Difficulty.PEACEFUL, false, true), DIMENSIONTYPE, MinecraftClient.getInstance()::getProfiler, loadDistance);
+    public FakeWorld(DynamicRegistryManager registryManager, int loadDistance) {
+        this(registryManager, LEVEL_INFO, DIMENSION_TYPE, MinecraftClient.getInstance()::getProfiler, loadDistance);
     }
 
     public FakeChunkManager getChunkProvider()
@@ -203,12 +209,15 @@ public class FakeWorld extends World
         return index + (this.getBottomY() >> 4);
     }
 
-
-
     @Override
     public String asString()
     {
         return "Chunks[FAKE] W: " + this.getChunkManager().getDebugString();
+    }
+
+    @Override
+    public DynamicRegistryManager getRegistryManager() {
+        return this.registryManager;
     }
 
     @Override
@@ -224,21 +233,15 @@ public class FakeWorld extends World
     }
 
     @Override
-    public void syncWorldEvent(PlayerEntity player, int eventId, BlockPos pos, int data) {
+    public void syncWorldEvent(PlayerEntity var1, int var2, BlockPos var3, int var4) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void emitGameEvent(Entity entity, GameEvent event, BlockPos pos) {
+    public void emitGameEvent(GameEvent var1, Vec3d var2, Emitter var3) {
         // TODO Auto-generated method stub
         
-    }
-
-    @Override
-    public DynamicRegistryManager getRegistryManager()
-    {
-        return registryManager;
     }
 
     @Override
@@ -248,45 +251,57 @@ public class FakeWorld extends World
     }
 
     @Override
-    public float getBrightness(Direction direction, boolean shaded) {
+    public RegistryEntry<Biome> getGeneratorStoredBiome(int var1, int var2, int var3) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public FeatureSet getEnabledFeatures() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public float getBrightness(Direction var1, boolean var2) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public void updateListeners(BlockPos pos, BlockState oldState, BlockState newState, int flags) {
+    public void updateListeners(BlockPos var1, BlockState var2, BlockState var3, int var4) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void playSound(PlayerEntity except, double x, double y, double z, SoundEvent sound, SoundCategory category,
-            float volume, float pitch) {
+    public void playSound(PlayerEntity var1, double var2, double var4, double var6, RegistryEntry<SoundEvent> var8,
+            SoundCategory var9, float var10, float var11, long var12) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void playSoundFromEntity(PlayerEntity except, Entity entity, SoundEvent sound, SoundCategory category,
-            float volume, float pitch) {
+    public void playSoundFromEntity(PlayerEntity var1, Entity var2, RegistryEntry<SoundEvent> var3, SoundCategory var4,
+            float var5, float var6, long var7) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public Entity getEntityById(int id) {
+    public Entity getEntityById(int var1) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public MapState getMapState(String id) {
+    public MapState getMapState(String var1) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void putMapState(String id, MapState state) {
+    public void putMapState(String var1, MapState var2) {
         // TODO Auto-generated method stub
         
     }
@@ -298,7 +313,7 @@ public class FakeWorld extends World
     }
 
     @Override
-    public void setBlockBreakingInfo(int entityId, BlockPos pos, int progress) {
+    public void setBlockBreakingInfo(int var1, BlockPos var2, int var3) {
         // TODO Auto-generated method stub
         
     }
@@ -319,31 +334,5 @@ public class FakeWorld extends World
     protected EntityLookup<Entity> getEntityLookup() {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public RegistryEntry<Biome> getGeneratorStoredBiome(int var1, int var2, int var3) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void emitGameEvent(GameEvent var1, Vec3d var2, Emitter var3) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void playSound(PlayerEntity var1, double var2, double var4, double var6, SoundEvent var8, SoundCategory var9,
-            float var10, float var11, long var12) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void playSoundFromEntity(PlayerEntity var1, Entity var2, SoundEvent var3, SoundCategory var4, float var5,
-            float var6, long var7) {
-        // TODO Auto-generated method stub
-        
     }
 }

@@ -1,5 +1,7 @@
 package fi.dy.masa.tweakeroo.renderer;
 
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MinecraftClient;
@@ -10,7 +12,6 @@ import net.minecraft.client.render.debug.DebugRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.AffineTransformation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Matrix4f;
 
 public class OverlayRenderer
 {
@@ -83,7 +84,7 @@ public class OverlayRenderer
         }
      */
  	/**
-	 * Stolen from {@link DebugRenderer#drawString(String, double, double, double, int, float, boolean, float, boolean)}
+	 * Borrowed from {@link DebugRenderer#drawString(String, double, double, double, int, float, boolean, float, boolean)}
 	 */
 
 	public static void drawString(String text, BlockPos pos, int color, float line)
@@ -104,7 +105,7 @@ public class OverlayRenderer
             MatrixStack matrixStack = RenderSystem.getModelViewStack();
 			matrixStack.push();
 			matrixStack.translate((float)(x - camX), (float)(y - camY), (float)(z - camZ));
-			matrixStack.multiplyPositionMatrix(new Matrix4f(camera.getRotation()));
+            matrixStack.multiplyPositionMatrix(new Matrix4f().rotation(camera.getRotation()));
             matrixStack.scale(FONT_SIZE, -FONT_SIZE, FONT_SIZE);
 			RenderSystem.enableTexture();
 			RenderSystem.disableDepthTest();  // visibleThroughObjects

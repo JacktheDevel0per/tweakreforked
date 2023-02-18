@@ -34,8 +34,8 @@ import net.minecraft.network.packet.s2c.play.LightUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.UnloadChunkS2CPacket;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.WorldChunk;
 import fi.dy.masa.tweakeroo.util.MiscUtils;
@@ -43,7 +43,6 @@ import fi.dy.masa.tweakeroo.util.MiscUtils;
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class MixinClientPlayNetworkHandler
 {
-
     @Shadow
     private ClientWorld world;
 
@@ -51,8 +50,8 @@ public abstract class MixinClientPlayNetworkHandler
     private int chunkLoadDistance;
 
     @Shadow
-    private DynamicRegistryManager.Immutable registryManager;
-    
+    public abstract DynamicRegistryManager getRegistryManager();
+
     @Inject(method = "onOpenScreen", at = @At("HEAD"), cancellable = true)
     private void onOpenScreenListener(OpenScreenS2CPacket packet, CallbackInfo ci) {
         if (!RenderTweaks.onOpenScreen(packet.getName(),packet.getScreenHandlerType(),packet.getSyncId())) {
@@ -123,14 +122,14 @@ public abstract class MixinClientPlayNetworkHandler
     @Inject(method = "onPlayerRespawn", at=@At(value = "NEW",
     target="net/minecraft/client/world/ClientWorld"))
     private void onPlayerRespawnInject(PlayerRespawnS2CPacket packet, CallbackInfo ci) {
-        RenderTweaks.resetWorld(registryManager,chunkLoadDistance);
+        RenderTweaks.resetWorld(getRegistryManager(),chunkLoadDistance);
     }
 
     
     @Inject(method = "onGameJoin", at=@At(value = "NEW",
     target="net/minecraft/client/world/ClientWorld"))
     private void onGameJoinInject(GameJoinS2CPacket packet, CallbackInfo ci) {
-        RenderTweaks.resetWorld(registryManager,chunkLoadDistance);
+        RenderTweaks.resetWorld(getRegistryManager(),chunkLoadDistance);
     }
 
     @Inject(method = "onChunkData", at=@At("RETURN"))
