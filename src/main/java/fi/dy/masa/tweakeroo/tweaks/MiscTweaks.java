@@ -16,8 +16,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.chunk.FlatChunkGeneratorLayer;
 import fi.dy.masa.malilib.config.IConfigBoolean;
 import fi.dy.masa.malilib.config.IConfigInteger;
@@ -403,7 +403,7 @@ public class MiscTweaks
         try
         {
             Identifier identifier = new Identifier(name);
-            return Registry.BLOCK.getOrEmpty(identifier).orElse(null);
+            return Registries.BLOCK.getOrEmpty(identifier).orElse(null);
         }
         catch (Exception e)
         {

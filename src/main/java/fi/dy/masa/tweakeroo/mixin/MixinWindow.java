@@ -34,6 +34,9 @@ public class MixinWindow implements IMixinWindow {
     @Shadow
     private double scaleFactor;
 
+    @Shadow public abstract int getWidth();
+    @Shadow public abstract int getHeight();
+
     private int yOffset = 0;
     private int originalFramebufferHeight = 1;
 
@@ -76,5 +79,50 @@ public class MixinWindow implements IMixinWindow {
     @Override
     public int getOriginalFramebufferHeight() {
         return this.originalFramebufferHeight;
+    }
+
+    @Inject(method = "getScaleFactor", at = @At("HEAD"), cancellable = true)
+    private void tweakeroo_customGuiScaleGetScale(CallbackInfoReturnable<Double> cir)
+    {
+        if (FeatureToggle.TWEAK_CUSTOM_INVENTORY_GUI_SCALE.getBooleanValue() &&
+            MinecraftClient.getInstance().currentScreen instanceof HandledScreen<?>)
+        {
+            int scale = Configs.Generic.CUSTOM_INVENTORY_GUI_SCALE.getIntegerValue();
+
+            if (scale > 0)
+            {
+                cir.setReturnValue((double) scale);
+            }
+        }
+    }
+
+    @Inject(method = "getScaledWidth", at = @At("HEAD"), cancellable = true)
+    private void tweakeroo_customGuiScaleGetWidth(CallbackInfoReturnable<Integer> cir)
+    {
+        if (FeatureToggle.TWEAK_CUSTOM_INVENTORY_GUI_SCALE.getBooleanValue() &&
+            MinecraftClient.getInstance().currentScreen instanceof HandledScreen<?>)
+        {
+            int scale = Configs.Generic.CUSTOM_INVENTORY_GUI_SCALE.getIntegerValue();
+
+            if (scale > 0)
+            {
+                cir.setReturnValue((int) Math.ceil((double) this.getWidth() / scale));
+            }
+        }
+    }
+
+    @Inject(method = "getScaledHeight", at = @At("HEAD"), cancellable = true)
+    private void tweakeroo_customGuiScaleGetHeight(CallbackInfoReturnable<Integer> cir)
+    {
+        if (FeatureToggle.TWEAK_CUSTOM_INVENTORY_GUI_SCALE.getBooleanValue() &&
+            MinecraftClient.getInstance().currentScreen instanceof HandledScreen<?>)
+        {
+            int scale = Configs.Generic.CUSTOM_INVENTORY_GUI_SCALE.getIntegerValue();
+
+            if (scale > 0)
+            {
+                cir.setReturnValue((int) Math.ceil((double) this.getHeight() / scale));
+            }
+        }
     }
 }
