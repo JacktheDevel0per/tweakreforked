@@ -33,7 +33,7 @@ public abstract class MixinHandledScreen extends DrawableHelper {
         if (ItemList.INSTANCE.isItemSelected(slot.getStack().getItem()) && FeatureToggle.TWEAK_SELECTED_SCAN_ITEM_HIGHLIGHT.getBooleanValue()) {
 
             fi.dy.masa.malilib.render.RenderUtils.drawRect(slot.x , slot.y, 16, 16, Configs.Generic.CONTAINER_SCAN_ITEM_HIGHLIGHT_COLOR.getColor().intValue,32);
-            // Draw the border
+            // Not drawing a border. Maybe one should be drawn?
             //fi.dy.masa.malilib.render.RenderUtils.drawOutline(slot.x, slot.y, 16, 16, 1, 0xFF800080,32);
         }
 

@@ -130,8 +130,6 @@ public class Configs implements IConfigHandler
 
         public static final ConfigColor         CONTAINER_SCAN_ITEM_HIGHLIGHT_COLOR = new ConfigColor       ("containerScanHighlightColor", "#AC000000", "Set the color that renders behind selected items from containerScan\n(when the feature is enabled)");
 
-//#FF601060
-
         public static final ImmutableList<IConfigBase> OPTIONS = ImmutableList.of(
                 CARPET_ACCURATE_PLACEMENT_PROTOCOL,
                 CLIENT_PLACEMENT_ROTATION,
