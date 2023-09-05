@@ -152,7 +152,7 @@ public abstract class MixinClientPlayNetworkHandler
                     for (int x = 0; x < 16; x++) {
                         for (int y = 0; y < 16; y++) {
                             for (int z = 0; z < 16; z++) {
-                                pos.set(x+worldChunk.getPos().getStartX(),y+section.getYOffset(),z+worldChunk.getPos().getStartZ());
+                                pos.set(x+worldChunk.getPos().getStartX(),y+ this.world.sectionIndexToCoord(i),z+worldChunk.getPos().getStartZ());
 
                                 if (!RenderTweaks.isPositionValidForRendering(pos)) {
                                     BlockEntity be = worldChunk.getBlockEntity(pos);

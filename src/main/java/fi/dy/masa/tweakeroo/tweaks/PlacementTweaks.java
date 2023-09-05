@@ -50,10 +50,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import fi.dy.masa.malilib.gui.Message;
-import fi.dy.masa.malilib.util.BlockUtils;
-import fi.dy.masa.malilib.util.GuiUtils;
-import fi.dy.masa.malilib.util.InfoUtils;
 import fi.dy.masa.malilib.util.MessageOutputType;
 
 public class PlacementTweaks
@@ -514,7 +510,7 @@ public class PlacementTweaks
 
             BlockState state = world.getBlockState(tempPos);
             if (state.getBlock() != itemBlock) {
-                if (state.isAir() || state.getMaterial().isReplaceable()) {
+                if (state.isAir() || state.isReplaceable()) {
                     return tempPos.toImmutable();
                 }
            

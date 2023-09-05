@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
-<<<<<<< HEAD
 import fi.dy.masa.malilib.gui.Message;
 import fi.dy.masa.malilib.util.Constants;
 import fi.dy.masa.malilib.util.GuiUtils;
@@ -21,8 +20,6 @@ import fi.dy.masa.tweakeroo.Tweakeroo;
 import fi.dy.masa.tweakeroo.config.Configs;
 import fi.dy.masa.tweakeroo.config.FeatureToggle;
 import fi.dy.masa.tweakeroo.tweaks.PlacementTweaks;
-=======
->>>>>>> ad558dafe9a4c181a98cd15c8eced1478a4c14f5
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -55,18 +52,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
-<<<<<<< HEAD
-=======
-
-import fi.dy.masa.malilib.gui.Message;
-import fi.dy.masa.malilib.util.Constants;
-import fi.dy.masa.malilib.util.GuiUtils;
-import fi.dy.masa.malilib.util.InfoUtils;
-import fi.dy.masa.tweakeroo.Tweakeroo;
-import fi.dy.masa.tweakeroo.config.Configs;
-import fi.dy.masa.tweakeroo.config.FeatureToggle;
-import fi.dy.masa.tweakeroo.tweaks.PlacementTweaks;
->>>>>>> ad558dafe9a4c181a98cd15c8eced1478a4c14f5
 
 public class InventoryUtils
 {

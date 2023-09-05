@@ -14,6 +14,7 @@ import fi.dy.masa.tweakeroo.gui.Icons;
 import fi.dy.masa.tweakeroo.items.ItemList;
 import fi.dy.masa.tweakeroo.items.ItemList.SortCriteria;
 import fi.dy.masa.tweakeroo.items.ItemListEntry;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 
@@ -170,7 +171,7 @@ public class WidgetItemListEntry extends WidgetListEntrySortable<ItemListEntry>
     }
 
     @Override
-    public void render(int mouseX, int mouseY, boolean selected, MatrixStack matrixStack)
+    public void render(int mouseX, int mouseY, boolean selected, DrawContext drawContext)
     {
         if (this.entry != null) selected = this.itemList.isEntrySelected(this.entry);
         // Draw a lighter background for the hovered and the selected entry
@@ -199,10 +200,10 @@ public class WidgetItemListEntry extends WidgetListEntrySortable<ItemListEntry>
         {
             if (this.listWidget.getSearchBarWidget().isSearchOpen() == false)
             {
-                this.drawString(x1, y, color, this.header1, matrixStack);
-                this.drawString(x2, y, color, this.header2, matrixStack);
-                this.drawString(x3, y, color, this.header3, matrixStack);
-                this.drawString(x4, y, color, this.header4, matrixStack);
+                this.drawString(x1, y, color, this.header1, drawContext);
+                this.drawString(x2, y, color, this.header2, drawContext);
+                this.drawString(x3, y, color, this.header3, drawContext);
+                this.drawString(x4, y, color, this.header4, drawContext);
 
                 this.renderColumnHeader(mouseX, mouseY, Icons.ARROW_DOWN, Icons.ARROW_UP);
             }
@@ -212,38 +213,39 @@ public class WidgetItemListEntry extends WidgetListEntrySortable<ItemListEntry>
             int countTotal = this.entry.getCountTotal();
             int countBoxes = this.entry.getCountBoxes();
             int countContainers = this.entry.getCountContainers();
-            this.drawString(x1 + 20, y, color, this.entry.getItemName(), matrixStack);
+            this.drawString(x1 + 20, y, color, this.entry.getItemName(), drawContext);
 
-            this.drawString(x2, y, color, String.valueOf(countTotal), matrixStack);
+            this.drawString(x2, y, color, String.valueOf(countTotal), drawContext);
 
-            this.drawString(x3, y, color, String.valueOf(countBoxes), matrixStack);
+            this.drawString(x3, y, color, String.valueOf(countBoxes), drawContext);
 
-            this.drawString(x4, y, color, String.valueOf(countContainers), matrixStack);
+            this.drawString(x4, y, color, String.valueOf(countContainers), drawContext);
 
-            matrixStack.push();
+            drawContext.getMatrices().push();
             //RenderSystem.disableLighting();
             RenderUtils.enableDiffuseLightingGui3D();
 
             //mc.getRenderItem().zLevel -= 110;
             y = this.y + 3;
             RenderUtils.drawRect(x1, y, 16, 16, 0x20FFFFFF); // light background for the item
-            this.mc.getItemRenderer().renderInGui(matrixStack, this.entry.getStack(), x1, y);
+            drawContext.drawItem(this.entry.getStack(), x1, y);
             //mc.getRenderItem().renderItemOverlayIntoGUI(mc.fontRenderer, this.entry.getStack(), x1, y, null);
             //mc.getRenderItem().zLevel += 110;
 
             RenderSystem.disableBlend();
             RenderUtils.disableDiffuseLighting();
-            matrixStack.pop();
+            drawContext.getMatrices().pop();
 
-            super.render(mouseX, mouseY, selected, matrixStack);
+            super.render(mouseX, mouseY, selected, drawContext);
         }
     }
 
     @Override
-    public void postRenderHovered(int mouseX, int mouseY, boolean selected, MatrixStack matrixStack)
+    public void postRenderHovered(int mouseX, int mouseY, boolean selected, DrawContext drawContext)
     {
         if (this.entry != null)
         {
+            MatrixStack matrixStack = drawContext.getMatrices();
             matrixStack.push();
             matrixStack.translate(0, 0, 200);
 
@@ -252,11 +254,11 @@ public class WidgetItemListEntry extends WidgetListEntrySortable<ItemListEntry>
             String header3 = GuiBase.TXT_BOLD + StringUtils.translate(HEADERS[2]);
 
             ItemStack stack = this.entry.getStack();
-            String stackName = entry.getItemName();
-            int countTotal = entry.getCountTotal();
-            int countBoxes = entry.getCountBoxes();
-            String strCountTotal = this.getFormattedCountString(countTotal, stack.getMaxCount());
-            String strCountBoxes = countBoxes + " boxes containing " + entry.getCountItemsInBoxes() + " items";
+            String stackName = stack.getName().getString();
+            int total = this.entry.getCountTotal();
+            int boxes = this.entry.getCountBoxes();
+            String strCountTotal = this.getFormattedCountString(total, stack.getMaxCount());
+            String strCountBoxes = boxes + " boxes containing " + entry.getCountItemsInBoxes() + " items";
 
             int w1 = Math.max(this.getStringWidth(header1)       , Math.max(this.getStringWidth(header2)      , this.getStringWidth(header3)));
             int w2 = Math.max(this.getStringWidth(stackName) + 20, Math.max(this.getStringWidth(strCountTotal), this.getStringWidth(strCountBoxes)));
@@ -278,24 +280,24 @@ public class WidgetItemListEntry extends WidgetListEntrySortable<ItemListEntry>
             int y1 = y;
             y += 4;
 
-            this.drawString(x1     , y, 0xFFFFFFFF, header1  , matrixStack);
-            this.drawString(x2 + 20, y, 0xFFFFFFFF, stackName, matrixStack);
+            this.drawString(x1     , y, 0xFFFFFFFF, header1  , drawContext);
+            this.drawString(x2 + 20, y, 0xFFFFFFFF, stackName, drawContext);
             y += 16;
 
-            this.drawString(x1, y, 0xFFFFFFFF, header2      , matrixStack);
-            this.drawString(x2, y, 0xFFFFFFFF, strCountTotal, matrixStack);
+            this.drawString(x1, y, 0xFFFFFFFF, header2      , drawContext);
+            this.drawString(x2, y, 0xFFFFFFFF, strCountTotal, drawContext);
             y += 16;
 
-            this.drawString(x1, y, 0xFFFFFFFF, header3        , matrixStack);
-            this.drawString(x2, y, 0xFFFFFFFF, strCountBoxes, matrixStack);
+            this.drawString(x1, y, 0xFFFFFFFF, header3        , drawContext);
+            this.drawString(x2, y, 0xFFFFFFFF, strCountBoxes, drawContext);
 
             RenderUtils.drawRect(x2, y1, 16, 16, 0x20FFFFFF); // light background for the item
 
-            //RenderSystem.disableLighting();
+            //TODO: RenderSystem.disableLighting();
             RenderUtils.enableDiffuseLightingGui3D();
 
             //mc.getRenderItem().zLevel += 100;
-            this.mc.getItemRenderer().renderInGui(matrixStack, stack, x2, y1);
+            drawContext.drawItem(stack, x2, y1);
             //mc.getRenderItem().renderItemOverlayIntoGUI(mc.fontRenderer, stack, x1, y, null);
             //mc.getRenderItem().zLevel -= 100;
             //RenderSystem.disableBlend();

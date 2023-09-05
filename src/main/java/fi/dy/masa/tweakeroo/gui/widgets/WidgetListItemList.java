@@ -15,6 +15,7 @@ import fi.dy.masa.tweakeroo.gui.GuiItemList;
 import fi.dy.masa.tweakeroo.gui.Icons;
 import fi.dy.masa.tweakeroo.items.ItemListEntry;
 import fi.dy.masa.tweakeroo.items.ItemListSorter;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -43,9 +44,9 @@ public class WidgetListItemList extends WidgetListBase<ItemListEntry, WidgetItem
     }
 
     @Override
-    public void drawContents(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void drawContents(DrawContext drawContext, int mouseX, int mouseY, float partialTicks)
     {
-        super.drawContents(matrixStack, mouseX, mouseY, partialTicks);
+        super.drawContents(drawContext, mouseX, mouseY, partialTicks);
         lastScrollbarPosition = this.scrollBar.getValue();
     }
 
