@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -19,6 +20,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.util.Hand;
+
 import fi.dy.masa.tweakeroo.config.Configs;
 import fi.dy.masa.tweakeroo.config.FeatureToggle;
 import fi.dy.masa.tweakeroo.util.CameraEntity;
@@ -31,12 +33,11 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     @Shadow public Input input;
     @Shadow protected int ticksLeftToDoubleTapSprint;
 
-    @Shadow public float lastNauseaStrength;
-    @Shadow public float nextNauseaStrength;
-
+    @Shadow public float prevNauseaIntensity;
+    @Shadow public float nauseaIntensity;
     private final DummyMovementInput dummyMovementInput = new DummyMovementInput(null);
     private Input realInput;
-    private float realNextNauseaStrength;
+    private float realNauseaIntensity;
 
     private MixinClientPlayerEntity(ClientWorld world, GameProfile profile)
     {
@@ -70,7 +71,7 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     {
         if (Configs.Disable.DISABLE_NAUSEA_EFFECT.getBooleanValue())
         {
-            this.nextNauseaStrength = this.realNextNauseaStrength;
+            this.nauseaIntensity = this.realNauseaIntensity;
         }
     }
 
@@ -82,9 +83,9 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
         {
             // This is used to set the value to the correct value for the duration of the
             // updateNausea() method, so that the portal sound plays correctly only once.
-            this.realNextNauseaStrength = this.nextNauseaStrength;
-            this.lastNauseaStrength = 0.0f;
-            this.nextNauseaStrength = 0.0f;
+            this.realNauseaIntensity = this.nauseaIntensity;
+            this.prevNauseaIntensity = 0.0f;
+            this.nauseaIntensity = 0.0f;
         }
     }
 
