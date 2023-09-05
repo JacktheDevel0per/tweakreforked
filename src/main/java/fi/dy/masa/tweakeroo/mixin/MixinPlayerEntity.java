@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+
 import fi.dy.masa.tweakeroo.config.FeatureToggle;
 
 @Mixin(PlayerEntity.class)
@@ -30,7 +31,7 @@ public abstract class MixinPlayerEntity extends LivingEntity
     {
         if (FeatureToggle.TWEAK_SNEAK_1_15_2.getBooleanValue())
         {
-            cir.setReturnValue(this.onGround);
+            cir.setReturnValue(this.isOnGround());
         }
     }
 

@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.systems.VertexSorter;
 
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -794,7 +795,7 @@ public class RenderTweaks {
                                 for (int x = 0; x < 16; x++) {
                                     for (int y = 0; y < 16; y++) {
                                         for (int z = 0; z < 16; z++) {
-                                            pos.set(x + cpos.getStartX(), y + section.getYOffset(),
+                                            pos.set(x + cpos.getStartX(), y + fakeWorld.sectionIndexToCoord(i),
                                                     z + cpos.getStartZ());
                                             updateSelectiveAtPos(pos);
                                         }
@@ -1187,7 +1188,7 @@ public class RenderTweaks {
         GlStateManager._viewport(x, y, width, height);
 
         Matrix4f matrix4f = new Matrix4f().setOrtho(0.0f, width, height, 0.0f, 1000.0f, 3000.0f);
-        RenderSystem.setProjectionMatrix(matrix4f);
+        RenderSystem.setProjectionMatrix(matrix4f, VertexSorter.BY_Z);
         float f = (float) width;
         float g = (float) height;
         float h = (float) endframebuffer.viewportWidth / (float) endframebuffer.textureWidth;

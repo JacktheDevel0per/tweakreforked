@@ -49,6 +49,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
 import fi.dy.masa.malilib.util.MessageOutputType;
 
 public class PlacementTweaks
@@ -509,7 +510,7 @@ public class PlacementTweaks
 
             BlockState state = world.getBlockState(tempPos);
             if (state.getBlock() != itemBlock) {
-                if (state.isAir() || state.getMaterial().isReplaceable()) {
+                if (state.isAir() || state.isReplaceable()) {
                     return tempPos.toImmutable();
                 }
            
@@ -873,7 +874,7 @@ public class PlacementTweaks
             ItemStack stackCurrent = player.getStackInHand(hand);
 
             if (stackOriginal.isEmpty() == false && player.getInventory().selectedSlot == hotbarSlot &&
-                (stackCurrent.isEmpty() || stackCurrent.isItemEqual(stackOriginal) == false))
+                (stackCurrent.isEmpty() || ItemStack.areItemsEqual(stackCurrent, stackOriginal) == false))
             {
                 // Don't allow taking stacks from elsewhere in the hotbar, if the cycle tweak is on
                 boolean allowHotbar = FeatureToggle.TWEAK_HOTBAR_SLOT_CYCLE.getBooleanValue() == false &&
@@ -926,7 +927,7 @@ public class PlacementTweaks
         }
 
         if (FeatureToggle.TWEAK_PLACEMENT_RESTRICTION.getBooleanValue() &&
-            state.canReplace(ctx) == false && state.getMaterial().isReplaceable())
+            state.canReplace(ctx) == false && state.isReplaceable())
         {
             // If the block itself says it's not replaceable, but the material is (fluids),
             // then we need to offset the position back, otherwise the check in ItemBlock
@@ -1267,7 +1268,7 @@ public class PlacementTweaks
     private static boolean canPlaceBlockIntoPosition(World world, BlockPos pos, ItemPlacementContext useContext)
     {
         BlockState state = world.getBlockState(pos);
-        return state.canReplace(useContext) || state.getMaterial().isLiquid() || state.getMaterial().isReplaceable();
+        return state.canReplace(useContext) || state.isLiquid() || state.isReplaceable();
     }
 
     private static boolean isNewPositionValidForColumnMode(BlockPos posNew, BlockPos posFirst, Direction sideFirst)
